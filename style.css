@@ -1,0 +1,353 @@
+/* ---------- Reset ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+img { display: block; max-width: 100%; height: auto; }
+
+/* ---------- Tokens (Intel-inspired) ---------- */
+:root{
+  --intel-blue: #0071C5;       /* Intel Core Blue (accent) */
+  --intel-blue-dark: #004A86;  /* Darker Intel Blue background */
+  --ink: #ffffff;              /* white text on dark background */
+  --ink-subtle: #e0e6ee;       /* softer white/grey for secondary text */
+  --bg: var(--intel-blue-dark);/* full site background */
+  --card-bg: #ffffff;          /* keep cards white */
+  --focus: #00a3f3;            /* bright cyan focus ring */
+  --shadow: 0 6px 18px rgba(0,0,0,.35), 0 2px 6px rgba(0,0,0,.25);
+  --shadow-hover: 0 10px 26px rgba(0,0,0,.4), 0 4px 10px rgba(0,0,0,.3);
+  --radius-xl: 18px;
+  --radius-md: 10px;
+  --gap: clamp(.75rem, 1.8vw, 1.25rem);
+  --rail-padding: clamp(.75rem, 3vw, 2rem);
+
+  /* Smaller cards/images as requested */
+  --max-card-w: 420px;
+  --min-card-w: min(62vw, 460px);
+  --snap-padding: 12vw;
+
+  --font-stack: Inter, "Segoe UI", Roboto, "Helvetica Neue", Arial, system-ui, -apple-system, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#0b0c0c; --card-bg:#121315; --ink:#f2f4f7; --ink-subtle:#c8cdd3;
+    --shadow: 0 6px 18px rgba(0,0,0,.45); --shadow-hover: 0 10px 26px rgba(0,0,0,.55);
+  }
+}
+
+/* ---------- Base ---------- */
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-stack);
+  color: var(--ink);
+  background: linear-gradient(
+    to bottom,
+    #004A86 0%,    /* dark Intel blue at top */
+    #0071C5 100%   /* lighter Intel blue at bottom */
+  );
+  line-height: 1.5;
+}
+.skip-link { position:absolute; left:0; top:-40px; background:var(--intel-blue); color:#fff; padding:.6rem 1rem; border-radius:0 0 .5rem .5rem; text-decoration:none; z-index:5; }
+.skip-link:focus{ top:0; }
+
+/* ---------- Hero ---------- */
+.hero {
+  background: var(--bg); /* remove gradient */
+  padding: clamp(1.5rem, 4vw, 3rem) var(--rail-padding);
+}
+.hero__inner{ max-width: 1100px; margin: 0 auto; }
+.hero__logo{ width: clamp(110px, 14vw, 160px); filter: drop-shadow(0 2px 6px rgba(0,0,0,.4)); margin-bottom:.75rem; }
+.hero__title {
+  color: #ffffff;
+}
+.hero__tagline {
+  color: var(--ink-subtle);
+}
+
+/* ---------- Timeline Rail and Cards ---------- */
+/* The timeline uses a horizontal rail to show all milestones in a single row */
+.rail {
+  /* Use flexbox for a simple horizontal layout */
+  display: flex;
+  flex-wrap: nowrap; /* Keep all cards in one line */
+  gap: clamp(.75rem, 1.8vw, 1.25rem); /* Space between cards */
+  padding: clamp(.75rem, 3vw, 2rem);
+  margin: 0;
+  list-style: none;
+
+  /* Allow horizontal scrolling if there are many cards */
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+
+  /* Snap cards to center when scrolling */
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 12vw;
+
+  touch-action: pan-x;                 /* allow horizontal gestures */
+  -webkit-overflow-scrolling: touch;   /* momentum scroll on iOS */
+}
+
+/* Each milestone stays the same size and doesn't wrap */
+.milestone {
+  position: relative;
+  flex: 0 0 auto; /* Don't shrink, don't wrap */
+  width: 420px; /* Card width */
+  max-width: 90vw; /* Responsive cap for small screens */
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
+  display: flex;
+  justify-content: center;
+}
+
+/* The card is a details element that shows more info when opened */
+.card {
+  position: relative;
+  /* Make the card background transparent so the image fills the whole card.
+     We still keep rounded corners and shadow so the card reads as a card. */
+  background: transparent;
+  border-radius: 18px;
+  box-shadow: 0 6px 18px rgba(0,0,0,.10), 0 2px 6px rgba(0,0,0,.08);
+  overflow: hidden; /* Clip image zoom to card */
+  transition: box-shadow 280ms ease, transform 280ms ease;
+}
+
+/* Keep a slightly stronger shadow on focus/open but DO NOT change size or translate.
+   This prevents the card from "opening up" into extra white space. */
+.card[open], .card:focus-within {
+  box-shadow: 0 10px 26px rgba(0,0,0,.14), 0 4px 10px rgba(0,0,0,.10);
+  transform: none; /* no lift/translate when opened */
+}
+
+/* Hide the default marker, and disable pointer events on the summary so clicking
+   the image/summary will NOT toggle the <details>. This removes the click/toggle effect.
+   (We keep the image non-interactive so horizontal swipes/scroll still work.) */
+.card > summary {
+  list-style: none;
+  cursor: default;      /* not shown as clickable */
+  outline: none;
+  pointer-events: none; /* block clicks on the summary so details won't toggle */
+}
+.card > summary::-webkit-details-marker { display: none; }
+
+/* Card image zooms slightly on hover/focus (image already has pointer-events: none so zoom only on card hover) */
+.card > summary > img {
+  width: 100%;
+  aspect-ratio: 4 / 3; /* Consistent size */
+  object-fit: cover;
+  border-bottom: 1px solid rgba(0,0,0,.08);
+
+  transform: scale(1);
+  transition: transform 260ms ease;
+  will-change: transform;
+
+  -webkit-user-drag: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  pointer-events: none;                /* image doesn’t eat the swipe; summary still non-clickable */
+}
+.card:hover > summary > img,
+.card:focus-within > summary > img {
+  transform: scale(1.03); /* Slight zoom */
+}
+
+/* Overlay text appears on hover/focus */
+.card::after {
+  content: attr(data-alt);
+  position: absolute;
+  left: 10px; right: 10px; bottom: 10px;
+  padding: .5rem .75rem;
+  background: linear-gradient(0deg, rgba(0,0,0,.72), rgba(0,0,0,.55));
+  color: #fff;
+  border-radius: 10px;
+  font-size: .92rem;
+  line-height: 1.25;
+  letter-spacing: .2px;
+
+  opacity: 75%;
+  transform: translateY(6px);
+  transition: opacity 200ms ease, transform 200ms ease;
+  pointer-events: none;
+}
+.card:hover::after,
+.card:focus-within::after {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Make the details block full-height overlay inside the card.
+   Headings (h2/h3) sit at the top edge and are visible by default.
+   The paragraph (<p>) is hidden and becomes a white overlay on hover. */
+.card__details {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: transparent; /* let the image show through under headings */
+  color: #fff;
+  padding: .6rem .9rem;
+  box-sizing: border-box;
+  pointer-events: none; /* don't intercept hover; the card handles hover */
+}
+
+/* Headings positioned at the top, readable over the image */
+.card__details > h2,
+.card__details > h3 {
+  margin: 0;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0,0,0,.6);
+  pointer-events: none;
+}
+.card__details > h2 { font-size: 0.95rem; font-weight: 700; }
+.card__details > h3 { font-size: 0.82rem; font-weight: 600; opacity: .95; margin-top: .15rem; }
+
+/* Paragraph is a bottom overlay, hidden by default */
+.card__details > p {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+  padding: 1rem;
+  background: rgba(255,255,255,0.94);
+  color: #111;
+  transform: translateY(8px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 200ms ease, transform 200ms ease, visibility 0s linear 200ms;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Reveal the paragraph overlay only on hover/focus-within (no click) */
+.card:hover .card__details > p,
+.card:focus-within .card__details > p {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Slightly dim the image when overlay is shown to improve contrast */
+.card:hover > summary > img,
+.card:focus-within > summary > img { filter: brightness(0.78) saturate(0.95); }
+
+/* Thin scrollbar for the rail */
+.rail::-webkit-scrollbar { height: 10px; }
+.rail::-webkit-scrollbar-thumb { background: rgba(0,0,0,.18); border-radius: 999px; }
+@supports (scrollbar-color: auto) {
+  .rail { scrollbar-color: rgba(0,0,0,.3) transparent; scrollbar-width: thin; }
+}
+
+/* Respect reduced motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .card, .card > summary > img, .card::after, .card__details {
+    transition: none !important; transform: none !important;
+  }
+}
+
+/* Extra small screens: make cards fit better */
+@media (max-width: 420px) {
+  .milestone { width: 86vw; }
+}
+
+/* Responsive: switch timeline to vertical on small devices */
+@media (max-width: 720px) {
+  .rail {
+    flex-direction: column;
+    gap: clamp(.5rem, 2.5vw, 1rem);
+    padding: 1rem;
+    overflow-x: hidden;
+    scroll-snap-type: y mandatory;
+    scroll-padding-block: 6vh;
+  }
+
+  .milestone {
+    width: 100%;
+    max-width: 100%;
+    scroll-snap-align: start;
+    display: block;
+  }
+
+  .card {
+    width: 100%;
+    border-radius: 12px;
+  }
+
+  /* Make image taller on mobile for easier tap targets */
+  .card > summary > img {
+    aspect-ratio: 16 / 9;
+    border-bottom: none;
+  }
+
+  /* Expand overlay paragraph to cover more of the card on mobile */
+  .card__details > p {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 1rem;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    max-height: 60vh;
+    overflow: auto;
+  }
+
+  /* Make the headings slightly larger on small screens */
+  .card__details > h2 { font-size: 1.05rem; }
+  .card__details > h3 { font-size: 0.92rem; }
+}
+
+/* Footer matches background */
+.footer {
+  background: transparent;
+  color: var(--ink-subtle);
+  text-align: center;
+  padding: 1.5rem var(--rail-padding) 2.5rem;
+  font-size: .95rem;
+}
+
+/* Optional: make it obvious you can swipe */
+.timeline::before,
+.timeline::after{ opacity: .9; } /* keep your gradient edge hints strong on dark bg */
+
+/* Scroll hint appears above the scrollbar, pill-shaped, and animates in/out */
+.scroll-hint {
+  position: sticky;
+  bottom: 12px;                 /* float just above the scrollbar */
+  left: 50%;
+  transform: translateX(-50%) translateY(100%);
+  display: inline-block;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #fff;
+  background: #0071C5; /* subtle shadow background only behind text */
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;         /* pill shape */
+  pointer-events: none;
+  opacity: 0;
+  transition: none;             /* animation handled below */
+}
+
+/* Keyframes for fade-in, hold, fade-out */
+@keyframes show-then-fade {
+  0%   { opacity: 0; transform: translateX(-50%) translateY(100%); }
+  10%  { opacity: 1; transform: translateX(-50%) translateY(0); }
+  70%  { opacity: 1; transform: translateX(-50%) translateY(0); }
+  100% { opacity: 0; transform: translateX(-50%) translateY(100%); }
+}
+
+.timeline:hover .scroll-hint,
+.timeline:focus-within .scroll-hint {
+  animation: show-then-fade 5s ease forwards;
+}
+
+/* Style the keyboard “buttons” inside */
+.scroll-hint kbd {
+  background: rgba(255,255,255,0.2);
+  border-radius: 4px;
+  padding: 0.1rem 0.35rem;
+  font-size: 0.85rem;
+  font-family: inherit;
+  opacity: 0.75;                /* reduce prominence */
+}
