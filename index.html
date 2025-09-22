@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Intel: Sustainability Through the Ages</title>
   <link rel="stylesheet" href="style.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+  <!-- Bootstrap RTL CSS for right-to-left text flow -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.rtl.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
 <body>
   <a class="skip-link" href="#timeline">Skip to timeline</a>
@@ -22,8 +26,13 @@
 
   <main>
     <section id="timeline" class="timeline" aria-label="Intel sustainability timeline">
+      <div style="display:flex;justify-content:center;align-items:center;margin-bottom:1rem;gap:1rem;">
+        <button id="timeline-left" type="button" aria-label="Scroll left" style="background:#0071C5;color:#fff;border:none;border-radius:50%;width:40px;height:40px;font-size:1.5rem;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.10);">&#8592;</button>
+        <span style="color:#fff;font-size:1rem;">Scroll Timeline</span>
+        <button id="timeline-right" type="button" aria-label="Scroll right" style="background:#0071C5;color:#fff;border:none;border-radius:50%;width:40px;height:40px;font-size:1.5rem;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.10);">&#8594;</button>
+      </div>
       <p class="scroll-hint">
-        💡 Tip: Use <kbd>Shift</kbd> + <kbd>Scroll</kbd> to move sideways
+        💡 Tip: Use <kbd>Shift</kbd> + <kbd>Scroll</kbd> or the arrows to move sideways
       </p>
       <ol class="rail" role="list" tabindex="0" aria-describedby="timeline-help">
         <!-- Milestone pattern:
@@ -100,7 +109,7 @@
         <li class="milestone" data-year="1993" data-title="Pentium Processor">
           <details class="card" data-alt="1993 — Launch of the Intel Pentium processor" tabindex="0">
             <summary>
-              <img src="img/5.png" alt="1993 — Launch of the Intel Pentium processor" loading="lazy" />
+              <img src="img/5.jpg" alt="1993 — Launch of the Intel Pentium processor" loading="lazy" />
             </summary>
             <div class="card__details">
               <h2>1993</h2>
@@ -117,7 +126,7 @@
         <li class="milestone" data-year="2006" data-title="Core Microarchitecture">
           <details class="card" data-alt="2006 — Introduction of Intel Core microarchitecture" tabindex="0">
             <summary>
-              <img src="img/6.png" alt="2006 — Introduction of Intel Core microarchitecture" loading="lazy" />
+              <img src="img/6.jpg" alt="2006 — Introduction of Intel Core microarchitecture" loading="lazy" />
             </summary>
             <div class="card__details">
               <h2>2006</h2>
@@ -134,7 +143,7 @@
         <li class="milestone" data-year="2012" data-title="Ivy Bridge Microarchitecture">
           <details class="card" data-alt="2012 — Launch of the Intel Ivy Bridge processors" tabindex="0">
             <summary>
-              <img src="img/7.png" alt="2012 — Launch of the Intel Ivy Bridge processors" loading="lazy" />
+              <img src="img/7.jpg" alt="2012 — Launch of the Intel Ivy Bridge processors" loading="lazy" />
             </summary>
             <div class="card__details">
               <h2>2012</h2>
@@ -151,7 +160,7 @@
         <li class="milestone" data-year="2016" data-title="Kaby Lake Microarchitecture">
           <details class="card" data-alt="2016 — Introduction of the Intel Kaby Lake processors" tabindex="0">
             <summary>
-              <img src="img/8.png" alt="2016 — Introduction of the Intel Kaby Lake processors" loading="lazy" />
+              <img src="img/8.jpg" alt="2016 — Introduction of the Intel Kaby Lake processors" loading="lazy" />
             </summary>
             <div class="card__details">
               <h2>2016</h2>
@@ -168,7 +177,7 @@
         <li class="milestone" data-year="2020" data-title="Tiger Lake Processors">
           <details class="card" data-alt="2020 — Launch of the Intel Tiger Lake processors" tabindex="0">
             <summary>
-              <img src="img/9.png" alt="2020 — Launch of the Intel Tiger Lake processors" loading="lazy" />
+              <img src="img/9.jpg" alt="2020 — Launch of the Intel Tiger Lake processors" loading="lazy" />
             </summary>
             <div class="card__details">
               <h2>2020</h2>
@@ -185,7 +194,7 @@
         <li class="milestone" data-year="2022" data-title="Alder Lake Processors">
           <details class="card" data-alt="2022 — Introduction of the Intel Alder Lake processors" tabindex="0">
             <summary>
-              <img src="img/10.png" alt="2022 — Introduction of the Intel Alder Lake processors" loading="lazy" />
+              <img src="img/10.jpg" alt="2022 — Introduction of the Intel Alder Lake processors" loading="lazy" />
             </summary>
             <div class="card__details">
               <h2>2022</h2>
@@ -199,6 +208,124 @@
         </li>
       </ol>
     </section>
+    <!-- New three-column section starts here -->
+    <section class="container my-5" aria-label="Three-column highlights">
+      <!-- The container class centers the content and adds padding -->
+      <div class="row">
+        <!-- First column -->
+        <div class="col-md-4 mb-4">
+          <div class="p-3 border intel-grid-item h-100">
+            <h2>Innovation</h2>
+            <p>
+              Intel continues to innovate, driving technology forward with new processors and architectures.
+            </p>
+            <!-- Innovation image below text -->
+            <img src="img/Innovation.jpg" alt="Innovation" style="width:100%;height:auto;margin-top:1rem;border-radius:8px;display:block;object-fit:cover;">
+          </div>
+        </div>
+
+        <!-- Second column (middle) -->
+        <div class="col-md-4 mb-4">
+          <div class="p-3 border intel-grid-item h-100">
+            <h2>Sustainability</h2>
+            <p>
+              Sustainability is at the heart of Intel’s mission, focusing on energy efficiency and eco-friendly manufacturing.
+            </p>
+            <!-- Newsletter subscription form starts here, now inside the middle column -->
+            <section aria-label="Newsletter subscription">
+              <!-- Heading for the form -->
+              <h2 class="mb-3">Subscribe to Intel’s Sustainability Newsletter</h2>
+              <!-- Simple Bootstrap form for email subscription -->
+              <form>
+                <!-- Form group for email input -->
+                <div class="mb-3">
+                  <!-- Label for the email input -->
+                  <label for="newsletter-email" class="form-label">Email address</label>
+                  <!-- Email input field -->
+                  <input type="email" class="form-control" id="newsletter-email" placeholder="Enter your email" required>
+                </div>
+                <!-- Submit button -->
+                <button type="submit" class="btn btn-primary">Subscribe</button>
+              </form>
+            </section>
+            <!-- End of newsletter subscription form -->
+          </div>
+        </div>
+
+        <!-- Third column -->
+        <div class="col-md-4 mb-4">
+          <div class="p-3 border intel-grid-item h-100">
+            <h2>Community</h2>
+            <p>
+              Intel supports communities worldwide through education, outreach, and responsible business practices.
+            </p>
+            <!-- Community image below text -->
+            <img src="img/Community.jpg" alt="Community" style="width:100%;height:auto;margin-top:1rem;border-radius:8px;display:block;object-fit:cover;">
+          </div>
+        </div>
+      </div>
+      <!-- End of row -->
+    </section>
   </main>
+  <!-- Timeline navigation script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var rail = document.querySelector('.rail');
+      var leftBtn = document.getElementById('timeline-left');
+      var rightBtn = document.getElementById('timeline-right');
+      if (rail && leftBtn && rightBtn) {
+        leftBtn.addEventListener('click', function() {
+          rail.scrollBy({ left: -420, behavior: 'smooth' });
+        });
+        rightBtn.addEventListener('click', function() {
+          rail.scrollBy({ left: 420, behavior: 'smooth' });
+        });
+      }
+    });
+  </script>
+  <!-- Footer section -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <p>&copy; 2025 Intel Corporation. All rights reserved.</p>
+      <nav aria-label="Footer navigation">
+        <a href="#" style="color:inherit; text-decoration:underline; margin-right:1.5rem;">Privacy Policy</a>
+        <a href="#" style="color:inherit; text-decoration:underline; margin-right:1.5rem;">Terms of Use</a>
+        <a href="#" style="color:inherit; text-decoration:underline;">Contact</a>
+      </nav>
+    </div>
+  </footer>
+  <!-- Bootstrap JS for interactive components -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+  <!-- Auto-detect language and adjust layout direction -->
+  <script>
+    // List of RTL language codes
+    const rtlLangs = ['ar', 'he', 'fa', 'ur'];
+
+    function setDirectionByLang(lang) {
+      // Get the base language code (e.g., 'ar' from 'ar-SA')
+      const baseLang = lang.split('-')[0];
+      if (rtlLangs.includes(baseLang)) {
+        document.documentElement.setAttribute('dir', 'rtl');
+        document.body.classList.add('bootstrap-rtl');
+      } else {
+        document.documentElement.setAttribute('dir', 'ltr');
+        document.body.classList.remove('bootstrap-rtl');
+      }
+    }
+
+    // Initial direction set
+    setDirectionByLang(document.documentElement.lang || navigator.language);
+
+    // Observe changes to the <html> lang attribute (Google Translate changes this)
+    const htmlObserver = new MutationObserver(() => {
+      setDirectionByLang(document.documentElement.lang || navigator.language);
+    });
+    htmlObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
+  </script>
+</body>
+</html>
+  <!-- Bootstrap JS for interactive components -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </body>
 </html>
